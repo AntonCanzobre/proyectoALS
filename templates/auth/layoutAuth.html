@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loginStyle.css') }}">
+  <title>GastoComún</title>
+</head>
+
+<body>
+  
+    {% with error_messages = get_flashed_messages() %}
+      {% if error_messages %}
+        {% for messages in error_messages %}
+          <div class="msg}">
+            {{messages}}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+{% extends "auth/layoutAuth.html" %}
+{% block content %}
+  <form class="form" method="POST" action="{{ url_for('register') }}">
+    <h2 class="form-heading">Registro</h2>
+
+    <input type="text" class="form-control" name="username" placeholder="Nombre de usuario" />
+    <input type="text" class="form-control" name="name" placeholder="Nombre" autofocus="" />
+    <input type="email" class="form-control" name="email" placeholder="Email" autofocus="" />
+    <input type="password" class="form-control" name="password" placeholder="Contraseña" />
+
+    <div class="container-btn">
+        <button class="btn btn-back" onclick="window.history.back()" type="button">Volver</button>
+        <button class="btn btn-submit" type="submit">Registrarse</button>
+      </div>
+  </form>
+{% endblock %}
