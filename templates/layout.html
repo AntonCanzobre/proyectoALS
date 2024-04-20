@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <title>GastoComún</title>
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/style.css') }}">
+    {% block css %}
+    {% endblock %}
 </head>
 <body>
 
@@ -20,7 +22,7 @@
             </ul>
         </nav>
 
-        <a href="/logout.html" class="cerrar-sesion"> Cerrar Sesion </a>
+        <a href="/logout" class="cerrar-sesion"> Cerrar Sesion </a>
     </header>
 
     <div class="container">

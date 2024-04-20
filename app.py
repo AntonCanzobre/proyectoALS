@@ -4,7 +4,7 @@ import sirope
 import flask_login
 import redis
 from model.userdto import UserDto
-from model.messagedto import MessageDto
+from model.groupdto import GroupDto
 
 def create_app():
     redis_client = redis.Redis(host='localhost', port=6379, db=0)
@@ -62,6 +62,14 @@ def register():
         if not (username and name and email and password):
             flask.flash("Todos los campos son obligatorios", "error")
             return flask.redirect('/register')
+
+        if UserDto.exist_username(srp, username=username):
+            flask.flash("Ese nombre de usuario ya existe", "error")
+            return flask.redirect('/register')
+
+        if UserDto.find(srp, email=email):
+            flask.flash("Ese email ya esta en uso", "error")
+            return flask.redirect('/register')
         
 
         user = UserDto(name=name, username=username, email=email, password=password)
@@ -89,7 +97,25 @@ def home():
     username = ""
     if user:
         username = user.username
-    return flask.render_template("home.html", username=username)
+
+    # grupo1 = GroupDto("Grupo 1", "", ["anton", "Persona2", "Persona3"], 100)
+    # grupo2 = GroupDto("Grupo 2", "", ["Persona4", "Persona5"], 150)
+    # grupo3 = GroupDto("Grupo 3", "", ["Persona6", "Persona7", "anton"], 200)
+    
+    # srp.save(grupo1)
+    # srp.save(grupo2)
+    # srp.save(grupo3)
+
+    groups_list = GroupDto.get_all_groups(srp,username=username)
+
+    sust = { 
+        "groups_list" : groups_list,
+    }
+
+    g = GroupDto.search_group(srp, "Grupo 1", username)
+    print(g)
+
+    return flask.render_template("home.html", username=username, **sust)
 
 @app.route('/logout')
 @flask_login.login_required

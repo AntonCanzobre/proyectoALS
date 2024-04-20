@@ -12,11 +12,7 @@ body {
     margin: 0;
 }
 
-.container {	
-    margin-top: 80px;
-    margin-bottom: 80px;
-}
-
+/********** Header *********/
 header{
     display: flex;
     align-items: center;
@@ -64,3 +60,10 @@ header{
 .cerrar-sesion:hover{
     background-color: darkred;
 }
+
+/********** body *********/
+.container {	
+	margin-top: 80px;
+    margin-bottom: 80px;
+}
+

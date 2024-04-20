@@ -1,6 +1,38 @@
 {% extends "layout.html" %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/expensesStyle.css') }}">
+{% endblock %}
+
 {% block content %}
     {{ username }}
 
-    
+
+    <div class="container-expenses">
+        <h2 class="expenses-heading">Grupos</h2>
+
+        <div class="expenses">
+            {% if groups_list %}
+                <table class="expenses-table">
+                    <tr>
+                        <th>Grupos</th>
+                        <th>Cantidad de gastos</th>
+                    </tr>
+                    {% for g in groups_list %}
+                        <tr class="expenses-table-row">
+                            <td class="expenses-table-cell"> {{ g.name }} </td>
+                            <td class="expenses-table-cell"> {{ g.expenses }} </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            {% else %}
+                <p><b>No groups.</b></p>
+            {% endif %}
+            
+        </div>
+        
+    </div>
+
 {% endblock %}

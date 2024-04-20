@@ -28,6 +28,10 @@ class UserDto(flask_login.UserMixin):
         return safe.check_password_hash(self._password, pswd)
 
     @staticmethod
+    def exist_username(s:sirope.Sirope, username:str):
+        return s.find_first(UserDto, lambda u: u.username == username)
+
+    @staticmethod
     def current_user():
         usr = flask_login.current_user
 
