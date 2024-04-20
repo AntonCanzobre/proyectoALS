@@ -1,0 +1,15 @@
+{% extends "auth/layoutAuth.html" %}
+{% block content %}
+  <form class="form" method="POST" action="{{ url_for('login') }}">
+    <h2 class="form-heading">Iniciar Sesión</h2>
+
+    <input type="text" class="form-control" name="email" placeholder="Email" />
+    <input type="password" class="form-control" name="password" placeholder="Contraseña" />
+
+    <div class="container-btn">
+      <button class="btn btn-primary" type="button" onclick="window.location.href='/register'">Registrarse</button>
+    
+      <button class="btn btn-submit" type="submit">Acceder</button>
+    </div>
+  </form>
+{% endblock %}
