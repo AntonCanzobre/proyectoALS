@@ -44,6 +44,11 @@ class UserDto(flask_login.UserMixin):
     @staticmethod
     def find(s: sirope.Sirope, email: str) -> "UserDto":
         return s.find_first(UserDto, lambda u: u.email == email)
+
+    @staticmethod
+    def find_username(s: sirope.Sirope, username: str) -> "UserDto":
+        return s.find_first(UserDto, lambda u: u.username == username)
+    
     
     def __str__(self):
         return f"{self.name}, {self.username}, {self.email}"

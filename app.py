@@ -3,8 +3,11 @@ import flask
 import sirope
 import flask_login
 import redis
-from model.userdto import UserDto
-from model.groupdto import GroupDto
+
+from model.Userdto import UserDto
+from model.Groupdto import GroupDto
+
+from views.group import group_blpr
 
 def create_app():
     redis_client = redis.Redis(host='localhost', port=6379, db=0)
@@ -13,8 +16,10 @@ def create_app():
     fapp = flask.Flask(__name__)
     syrp = sirope.Sirope(redis_obj=redis_client)
 
-    fapp.config.from_file("config.json", load=json.load)
+    fapp.config.from_file("instance/config.json", load=json.load)
     lmanager.init_app(fapp)
+    fapp.register_blueprint(group_blpr)
+
     return fapp, lmanager, syrp
 
 app, lm, srp = create_app()
@@ -109,13 +114,14 @@ def home():
     groups_list = GroupDto.get_all_groups(srp,username=username)
 
     sust = { 
+        "username":username,
         "groups_list" : groups_list,
     }
 
     g = GroupDto.search_group(srp, "Grupo 1", username)
     print(g)
 
-    return flask.render_template("home.html", username=username, **sust)
+    return flask.render_template("home.html", **sust)
 
 @app.route('/logout')
 @flask_login.login_required

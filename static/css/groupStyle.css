@@ -1,0 +1,165 @@
+
+.container-group{
+    max-width: 400px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+    background-color: #132D46;
+    border: 1px solid rgba(0,0,0,0.1);  
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    border-radius: 10px;
+}
+
+.group-heading{
+    margin-bottom: 30px;
+
+}
+
+
+.div-form {
+    margin: 20px auto;
+    max-width: 350px;
+
+}
+
+.div-form label {
+    display: block;
+    margin-bottom: 10px;
+    color: #fff;
+    font-size: 18px;
+}
+
+.div-form input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #01C38D;
+    border-radius: 5px;
+    background-color: #141e30;
+    color: #fff;
+}
+
+.div-form input[type="text"]:focus {
+    outline: none;
+    border-color: #008b64;
+}
+
+.div-form-people {
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.form-group-persona {
+    max-width: 70%;
+}
+
+.boton-añadir-form {
+    max-width: 20%;
+    padding: 10px 5px;
+    background-color: #696E79;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.boton-añadir-form:hover {
+  background-color: #3e4147;
+}
+
+.container-people {
+    max-width: 330px;
+    padding: 15px 15px;
+    margin: 20px auto;
+    background-color: #696E79;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+  
+.container-people ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+}
+  
+.container-people ul li {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 5px;
+    padding: 5px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3); 
+    /* border: 1px solid yellow; */
+}
+
+
+
+.title-people{
+    margin: 0px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.container-people ul li button{
+    width: 30px;
+    height: 30px;
+    text-transform: uppercase;
+    color: red;
+    border-radius: 5px;
+    border: 1px solid red;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.container-people ul li button:hover{
+    background-color: red;
+    color: white;
+    cursor: pointer;
+
+}
+
+.btn{
+    padding: 10px;
+    height: auto;
+    width: 150px;
+    margin: 5px;
+    margin-top: 20px;
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    background-color: #696E79;
+    text-decoration: none;
+    font-size: 14px;
+}
+  
+.btn:hover{
+    cursor: pointer;
+    background-color: #3e4147;
+}
+  
+.btn-submit{
+    background-color: #01C38D;
+}
+.btn-submit:hover{
+    background-color: #008b64;
+  
+}
+
+.div-form-btn{
+    display: flex;
+    justify-content: center;
+}
