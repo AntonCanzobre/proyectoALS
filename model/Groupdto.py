@@ -1,4 +1,5 @@
 import sirope
+from model.Expensesdto import ExpensesDto
 
 
 class GroupDto():
@@ -7,6 +8,7 @@ class GroupDto():
         self._description = description
         self._people = people
         self._expenses = expenses
+        self._url
 
     @property
     def name(self):
@@ -23,6 +25,28 @@ class GroupDto():
     @property
     def expenses(self):
         return self._expenses
+    
+    @property
+    def url(self):
+        return self._url
+    
+    @url.setter
+    def url(self, s:sirope.Sirope, url):
+        self._url = url
+        
+
+    
+
+    def contains_user(self, username):
+        return username in self._people 
+    
+    def add_expense(self, s:sirope.Sirope, expense):
+        ooid_expense = s.save(expense)
+        self._expenses.append(ooid_expense)
+
+    def get_array_expenses(self, s:sirope.Sirope):
+        return list(s.multi_load(self._expenses))
+
 
     @staticmethod
     def search_group(s:sirope.Sirope, name:str, username:str):  

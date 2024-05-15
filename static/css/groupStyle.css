@@ -163,3 +163,52 @@
     display: flex;
     justify-content: center;
 }
+
+/* Estilos para el modal */
+.modal {
+    display: block; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); 
+}
+
+.btn-add-expense {
+    display: flex;
+    justify-content: center;
+    background-color: #01C38D;
+}
+
+.btn-add-expense:hover {
+    background-color: #008b64;
+
+}
+
+/* Contenido del modal */
+.modal-content {
+    background-color: #132D46;
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%; 
+    max-width: 600px; 
+    border-radius: 8px; 
+}
+
+/* Botón de cierre */
+.close {
+    color: #696E79;
+    float: right;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

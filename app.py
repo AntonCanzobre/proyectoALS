@@ -103,14 +103,6 @@ def home():
     if user:
         username = user.username
 
-    # grupo1 = GroupDto("Grupo 1", "", ["anton", "Persona2", "Persona3"], 100)
-    # grupo2 = GroupDto("Grupo 2", "", ["Persona4", "Persona5"], 150)
-    # grupo3 = GroupDto("Grupo 3", "", ["Persona6", "Persona7", "anton"], 200)
-    
-    # srp.save(grupo1)
-    # srp.save(grupo2)
-    # srp.save(grupo3)
-
     groups_list = GroupDto.get_all_groups(srp,username=username)
 
     sust = { 
@@ -118,8 +110,7 @@ def home():
         "groups_list" : groups_list,
     }
 
-    g = GroupDto.search_group(srp, "Grupo 1", username)
-    print(g)
+    
 
     return flask.render_template("home.html", **sust)
 

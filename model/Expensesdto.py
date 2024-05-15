@@ -1,8 +1,7 @@
+import sirope
 
 
-
-
-class expensesDto():
+class ExpensesDto():
     def __init__(self, id, name, amount, user):
         self._id = id
         self._name = name
@@ -23,3 +22,10 @@ class expensesDto():
     @property
     def user(self):
         return self._user
+
+    @staticmethod
+    def get_expense(s:sirope.Sirope, ooid):
+        return s.load(ooid)
+
+    def __str__ (self):
+        return f"{self.name}, {self.amount}"

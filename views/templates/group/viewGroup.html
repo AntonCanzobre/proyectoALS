@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/groupStyle.css') }}">
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="container-group">
+        <h2 class="group-heading">Grupo {{group.name}} </h2>
+        <p class="description-group">
+            {{ group.description }}
+        </p>
+        <a href="/group/view/{{ group.name }}/expense/add"
+        class="btn btn-add-expense">Añadir Gasto </a>
+        <div>
+            <h3>Gastos: </h3>
+            {% if group.expenses %}
+            <table>
+                <tr>
+                    <th>Gasto</th>
+                    <th>Cantidad</th>
+                    <th>Persona</th>
+                </tr>
+
+                {% for expense in expenses %}
+                    <tr>
+                        <td> {{expense.name}} </td>
+                        <td> {{expense.amount}} </td>
+                        <td> {{expense.user}} </td>
+
+                    </tr>
+                {% endfor %}
+
+            </table>
+            {% else %}
+                <p><b>No hay gastos</b></p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% block modal %}
+    {% endblock %}
+
+{% endblock %}

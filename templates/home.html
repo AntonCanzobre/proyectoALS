@@ -23,6 +23,7 @@
                         <tr class="expenses-table-row">
                             <td class="expenses-table-cell"> {{ g.name }} </td>
                             <td class="expenses-table-cell"> {{ g.expenses }} </td>
+                            <td class="expenses-table-cell"> <a href='/group/view/{{ g.name }}'>{{ g.name }}</a></td>
                         </tr>
                     {% endfor %}
 
