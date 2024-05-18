@@ -56,10 +56,10 @@
     background-color: #344B66;
 }
 
-.link{
+/* .link{
     display: flex;
     justify-content: center;
-}
+} */
 
 .link a {
     padding: 8px;
@@ -74,6 +74,10 @@
 
 .link a:hover {
     background-color: #01C38D;
+}
+
+.link-delete a:hover {
+    background-color: red;
 }
 
 .view-icon {

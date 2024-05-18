@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-    {{ username }}
 
 
     <div class="container-expenses">
@@ -19,12 +18,15 @@
                         <th>Grupos</th>
                         <th>Cantidad de gastos</th>
                         <th>Acceso</th>
+                        <th>Eliminar</th>
                     </tr>
                     {% for g, url in zip(groups_list, urls_groups) %}
                         <tr class="expenses-table-row">
                             <td class="expenses-table-cell"> {{ g.name }} </td>
                             <td class="expenses-table-cell"> {{ g.get_total_expenses(srp) }} </td>
                             <td class="expenses-table-cell link"> <a href='/group/view/{{ url }}'><img class="view-icon" src="/static/view.svg" alt="view group"></a></td>
+                            <td class="expenses-table-cell link link-delete"> <a href='/group/delete/{{ url }}'><img class="view-icon" src="/static/delete.svg" alt="delete group"></a></td>
+                            
                         </tr>
                     {% endfor %}
 
@@ -35,6 +37,9 @@
             
         </div>
         
-    </div>
 
+    </div>
+    {% block modal %}
+    {% endblock %}
 {% endblock %}
+

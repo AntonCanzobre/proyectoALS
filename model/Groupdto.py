@@ -33,6 +33,13 @@ class GroupDto():
         ooid_expense = s.save(expense)
         self._expenses.append(ooid_expense)
 
+    def edit_group(self, s:sirope.Sirope, name_group, description_group, list_participants):
+        self._name = name_group
+        self._description = description_group
+        self._people = list_participants
+        s.save(self)
+
+
     def get_array_expenses(self, s:sirope.Sirope):
         return list(s.multi_load(self._expenses))
     

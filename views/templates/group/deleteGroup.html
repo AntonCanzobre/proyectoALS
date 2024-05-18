@@ -1,0 +1,24 @@
+{% extends "home.html" %}
+
+{% block modal %}
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <a href="/home"><span class="close">&times;</span></a>
+            <h2 class="group-heading">Crear Gasto</h2>
+            <div class="group-form">
+                <form method="POST" action="{{ url_for('group_blpr.delete_group', name=url) }}">
+
+                    <h3>¿Estas seguro de querer borrar el grupo?</h3>
+
+                    
+                    <div class="modal-div-form-btn">
+                        <a href="/home" class="btn btn-cancel">Cancelar</a>
+
+                        <button type="submit" class="btn btn-submit">Eliminar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

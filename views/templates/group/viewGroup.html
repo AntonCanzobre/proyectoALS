@@ -8,7 +8,10 @@
 
 <div class="content">
     <div class="container-group">
-        <h2 class="group-heading">Grupo {{group.name}} </h2>
+        <div class="header-group">
+            <h2 class="group-heading">Grupo {{group.name}} </h2>
+            <a href="/group/edit/{{url}}"><img class="edit-group" src="/static/edit.svg" alt="editar grupo"></a>
+        </div>
         <p class="description-group">
             {{ group.description }}
         </p>

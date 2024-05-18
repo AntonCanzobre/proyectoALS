@@ -108,7 +108,7 @@ def home():
         username = user.username
 
     groups_list, urls_groups = GroupDto.get_all_groups(srp,username=username)
-    print(urls_groups)
+    
     sust = { 
         "username":username,
         "groups_list" : groups_list,

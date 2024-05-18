@@ -132,14 +132,12 @@ def add_expense(name):
         if user_exists:
             if group.contains_user(username=user_expense):
                 expense = ExpensesDto(name_expense,amount_expense, user_expense)
-                print(expense)
                 group.add_expense(srp, expense)
                 ooid = srp.save(group)
-                print(ooid)
 
                 return flask.redirect("/group/view/" + name)
-            return "terrible"
-        return user_expense
+            
+        
 
 
 @flask_login.login_required
@@ -152,3 +150,65 @@ def delete_expense(name, expense):
         group.delete_expense(srp,ooid)
     
         return flask.redirect("/group/view/" + name)
+
+@flask_login.login_required
+@group_blpr.route("/edit/<name>", methods=["POST", "GET"])
+def edit_group(name):
+    if flask.request.method == "GET":
+        group = GroupDto.search_by_url(srp, name)
+
+        sust= {
+            "url": name,
+            "group": group
+        }
+        return flask.render_template("editGroup.html", **sust)
+
+    if flask.request.method == "POST":
+        name_group = flask.request.form.get("name-group")
+        description_group = flask.request.form.get("description-group")
+        list_participants = flask.request.form.getlist("participants[]")
+        
+
+        if not (name_group and description_group and list_participants):
+            flask.flash("Todos los campos son obligatorios", "error")
+            return flask.redirect('/group/edit' + name)
+        
+        group_edit = GroupDto.search_by_url(srp,name)
+
+        group_edit.edit_group(srp, name_group, description_group, list_participants)
+
+        return flask.redirect("/group/view/"+name)
+
+@flask_login.login_required
+@group_blpr.route("/delete/<name>", methods=["POST","GET"])
+def delete_group(name):
+    if flask.request.method == "GET":
+        user = UserDto.current_user()
+        username = ""
+        if user:
+            username = user.username
+
+        groups_list, urls_groups = GroupDto.get_all_groups(srp,username=username)
+        
+        sust = { 
+            "url": name,
+            "username":username,
+            "groups_list" : groups_list,
+            "srp":srp,
+            "urls_groups" : urls_groups
+        }
+        
+        return flask.render_template("deleteGroup.html", **sust)
+    
+    if flask.request.method == "POST":
+        srp.delete(srp.oid_from_safe(name))
+        
+        return flask.redirect("/home")
+
+        
+
+
+
+
+        
+
