@@ -1,40 +1,81 @@
-
-.container-expenses{
-    max-width: 380px;
-    padding: 15px 35px 45px;
-    margin: 0 auto;
+.container-expenses {
+    max-width: 600px;
+    padding: 20px 40px 50px;
+    margin: 20px auto;
     background-color: #132D46;
-    border: 1px solid rgba(0,0,0,0.1);  
+    border: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
+    align-items: center;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff;
 }
 
-.expenses-heading{
+.expenses-heading {
     margin-bottom: 30px;
-
+    text-align: center;
 }
 
-.expenses{
-    /* border: 1px yellow solid; */
-
+.expenses-heading h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #01C38D;
 }
 
 .expenses-table {
     width: 100%;
     border-collapse: collapse;
     border-radius: 10px;
-
+    overflow: hidden;
 }
 
-.expenses-table th, td {
-    border: 1px solid #dddddd; 
-    text-align: left; 
-    padding: 8px; 
+.expenses-table thead {
+    background-color: #01C38D;
+    color: #fff;
+}
 
+.expenses-table th, 
+.expenses-table td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #dddddd;
 }
 
 .expenses-table th {
-    background-color: #01C38D; 
+    background-color: #01C38D;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.expenses-table tbody tr:nth-child(even) {
+    background-color: #1E3A56;
+}
+
+.expenses-table tbody tr:hover {
+    background-color: #344B66;
+}
+
+.link{
+    display: flex;
+    justify-content: center;
+}
+
+.link a {
+    padding: 8px;
+    border-radius: 50%;
+    background-color: #696E79;
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.link a:hover {
+    background-color: #01C38D;
+}
+
+.view-icon {
+    width: 24px;
 }

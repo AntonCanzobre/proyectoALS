@@ -1,6 +1,10 @@
+.content{
+    display: flex;
 
+}
 .container-group{
-    max-width: 400px;
+    max-width: 45%;
+    min-width: 30%;
     padding: 15px 35px 45px;
     margin: 0 auto;
     background-color: #132D46;
@@ -12,8 +16,8 @@
 }
 
 .group-heading{
-    margin-bottom: 30px;
-
+    margin-bottom: 24px;
+    font-size: 34px;
 }
 
 
@@ -30,7 +34,7 @@
     font-size: 18px;
 }
 
-.div-form input[type="text"] {
+.form-group {
     width: 300px;
     padding: 10px;
     border: 1px solid #01C38D;
@@ -39,7 +43,7 @@
     color: #fff;
 }
 
-.div-form input[type="text"]:focus {
+.form-group:focus {
     outline: none;
     border-color: #008b64;
 }
@@ -108,6 +112,8 @@
     margin-bottom: 10px;
     font-size: 20px;
     font-weight: bold;
+    color: #dd5;
+
 }
 
 .container-people ul li button{
@@ -180,7 +186,8 @@
 .btn-add-expense {
     display: flex;
     justify-content: center;
-    background-color: #01C38D;
+    background-color: #02b482;
+    font-weight: bold;
 }
 
 .btn-add-expense:hover {
@@ -211,4 +218,122 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+/*****tabla gastos******/
+.container-table h3{
+    font-size: 24px;
+}
+
+.expenses-table {
+    
+    min-width: 90%; 
+    background-color: #696E79;
+    padding: 10px;
+    border-radius: 10px;
+    
+    tr {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    th { 
+        text-align: start;
+        font-size: 20px;
+        color: #dd5;
+    }
+    
+    td {
+        font-size: 16px;
+        padding: 5px;
+    }
+     
+}
+
+.cell-delete{
+    display: flex;
+    justify-content: center;
+}
+
+.img-delete {
+    width: 32px;
+}
+
+.btn-delete {
+    padding: 8px;
+    border-radius: 50%;
+    border: none;
+    background-color: #696E79;
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+    cursor: pointer;
+    background-color: red;
+}
+
+/******fin tabla********/
+.container-participants {
+    display: flex;
+    flex-direction: column;
+    /* max-width: 350px; */
+    /* margin: 20px auto; */
+    /* background-color: #141e30; */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.container-participants h3 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+
+.container-debts {
+    min-width: 80%;
+    padding: 15px 15px;
+    margin: 20px auto;
+    background-color: #696E79;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+.wrapper-debt h4 {
+    margin-bottom: 5px;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.debt-name {
+    font-weight: bold;
+    color: #dd5;
+}
+  
+.wrapper-debt ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+}
+  
+.wrapper-debt ul li {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 5px;
+    padding: 5px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3); 
 }

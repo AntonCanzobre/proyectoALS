@@ -6,22 +6,23 @@
 
 {% block content %}
 
-
+<div class="content">
     <div class="container-group">
         <h2 class="group-heading">Grupo {{group.name}} </h2>
         <p class="description-group">
             {{ group.description }}
         </p>
-        <a href="/group/view/{{ group.name }}/expense/add"
+        <a href="/group/view/{{ url }}/expense/add"
         class="btn btn-add-expense">Añadir Gasto </a>
-        <div>
-            <h3>Gastos: </h3>
+        <div class="container-table">
+            <h3 >Gastos: </h3>
             {% if group.expenses %}
-            <table>
+            <table class="expenses-table">
                 <tr>
                     <th>Gasto</th>
                     <th>Cantidad</th>
-                    <th>Persona</th>
+                    <th>Pagado por</th>
+                    <th>Cancelar</th>
                 </tr>
 
                 {% for expense in expenses %}
@@ -29,7 +30,11 @@
                         <td> {{expense.name}} </td>
                         <td> {{expense.amount}} </td>
                         <td> {{expense.user}} </td>
-
+                        <td class="cell-delete">
+                            <form method="POST" action="{{ url_for('group_blpr.delete_expense', name=url, expense=expense.name) }}">  
+                                <button type="submit" class="btn-delete"><img class="img-delete" src="/static/delete.svg" alt="delete expense"></button>
+                            </form>
+                             </td>
                     </tr>
                 {% endfor %}
 
@@ -40,6 +45,30 @@
         </div>
     </div>
 
+    <div class="container-group">
+        <h2 class="group-heading">Saldos</h2>
+        
+        <div class="container-debts">
+            {% for person,debt in debts.items() %}
+            <div class="wrapper-debt">
+                <h4>A <span class="debt-name">{{person}}</span> le deben:</h4>
+                <ul>
+
+                    {% for d, p in debt.items() %}
+                        {% if p != 0 %}
+                            <li>{{ d }} → {{ p }}€</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>  
+            </div>
+            {%endfor%}
+        </div>
+
+        
+    </div>
+
+</div>
+    
     {% block modal %}
     {% endblock %}
 

@@ -3,10 +3,10 @@
 {% block modal %}
 <div id="modal" class="modal">
     <div class="modal-content">
-        <a href="/group/view/{{ group.name }}"><span class="close">&times;</span></a>
-        <h2 class="group-heading">Crear Grupo</h2>
+        <a href="/group/view/{{ url }}"><span class="close">&times;</span></a>
+        <h2 class="group-heading">Crear Gasto</h2>
         <div class="group-form">
-            <form method="POST" action="{{ url_for('group_blpr.add_expense', name=group.name) }}">
+            <form method="POST" action="{{ url_for('group_blpr.add_expense', name=url) }}">
 
                 <div class="div-form">
                     <label for="name-expense">Nombre del gasto</label>
@@ -20,8 +20,14 @@
 
                 <div class="div-form">
                     <label for="user-expense">Usuario que pago</label>
-                    <input type="text" class="form-group" name="user-expense" placeholder="Usuario" value="{{ expense.user }}"/>
+                    <select name="user-expense" id="user-expense" class="form-group">
+                        {%for u in group.people %}
+                        <option value="{{ u }}"> {{u}} </option>
+                        {%endfor%}
+                    </select>
                 </div>
+
+                
                 
                 <div class="div-form-btn">
                     <button type="submit" class="btn btn-submit">Crear</button>

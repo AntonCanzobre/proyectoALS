@@ -24,6 +24,10 @@ def create_app():
 
 app, lm, srp = create_app()
 
+@app.context_processor
+def utility_processor():
+    return dict(zip=zip)
+
 @lm.user_loader
 def user_loader(email):
     return UserDto.find(srp, email)
@@ -103,11 +107,13 @@ def home():
     if user:
         username = user.username
 
-    groups_list = GroupDto.get_all_groups(srp,username=username)
-
+    groups_list, urls_groups = GroupDto.get_all_groups(srp,username=username)
+    print(urls_groups)
     sust = { 
         "username":username,
         "groups_list" : groups_list,
+        "srp":srp,
+        "urls_groups" : urls_groups
     }
 
     

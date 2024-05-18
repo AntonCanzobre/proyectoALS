@@ -15,15 +15,16 @@
         <div class="expenses">
             {% if groups_list %}
                 <table class="expenses-table">
-                    <tr>
+                    <tr class="expenses-table-row">
                         <th>Grupos</th>
                         <th>Cantidad de gastos</th>
+                        <th>Acceso</th>
                     </tr>
-                    {% for g in groups_list %}
+                    {% for g, url in zip(groups_list, urls_groups) %}
                         <tr class="expenses-table-row">
                             <td class="expenses-table-cell"> {{ g.name }} </td>
-                            <td class="expenses-table-cell"> {{ g.expenses }} </td>
-                            <td class="expenses-table-cell"> <a href='/group/view/{{ g.name }}'>{{ g.name }}</a></td>
+                            <td class="expenses-table-cell"> {{ g.get_total_expenses(srp) }} </td>
+                            <td class="expenses-table-cell link"> <a href='/group/view/{{ url }}'><img class="view-icon" src="/static/view.svg" alt="view group"></a></td>
                         </tr>
                     {% endfor %}
 
