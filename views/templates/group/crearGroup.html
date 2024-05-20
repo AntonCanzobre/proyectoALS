@@ -11,6 +11,13 @@
         <h2 class="group-heading">Crear Grupo</h2>
         <div class="group-form">
             <form method="POST" action="{{ url_for('group_blpr.group_add') }}">
+                {% with errorGroup = get_flashed_messages(category_filter=["errorGroup"]) %}
+                    {%if errorGroup%}
+                        {%for msg in errorGroup%}
+                        <p class="msg-error">{{msg}}</p>
+                        {%endfor%}
+                    {%endif%}
+                {% endwith %}
 
                 <div class="div-form">
                     <label for="name-group">Nombre del Grupo</label>
@@ -24,6 +31,7 @@
                 
                 <div class="div-form">
                     <label for="new-user">Añadir participante</label>
+                    <div id="errorParticipant"></div>
                     <div class="div-form-people">
                         <input type="text" class="form-group form-group-persona" name="new-user" id="new-user" placeholder="Nombre de usuario" />
                         <button class="boton-añadir-form" onclick="addParticipant()" type="button">Añadir</button>
@@ -33,7 +41,7 @@
                 <div class="container-people">
                     <h3 class="title-people">Participantes</h3>
                     <ul id="participants-list" name="participants-list">
-                        <!-- <li><span>Pedro</span> <button>X</button></li> -->
+                        
 
                         {% for person in group.people %}
                             <li>
@@ -69,15 +77,27 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     
+                    var element = ''
+                    var insertError = document.getElementById("errorParticipant")
+                    insertError.innerHTML = element;
+
                     var response = JSON.parse(xhr.responseText);
                     var participantsList = document.getElementById("participants-list");
                     participant = response.participant;
 
                     var listItem = document.createElement("li");
+                    listItem.id = "id-li-" + participant
+                    
                                 
-                    listItem.innerHTML = '<input id="id+'+ participant +'" type="hidden" name="participants[]" value="' + participant +'">' 
+                    listItem.innerHTML = '<input id="id-'+ participant +'" type="hidden" name="participants[]" value="' + participant +'">' 
                         +'<span>' + participant + '</span> <button type="button" onclick="deleteParticipant(\''+ participant +'\')">X</button>';
                     participantsList.appendChild(listItem);
+                }
+                if (xhr.readyState === 4 && xhr.status === 400) {
+                    var response = JSON.parse(xhr.responseText)
+                    var element = '<p class="msg-error">' + response.message + '</p>'
+                    var insertError = document.getElementById("errorParticipant")
+                    insertError.innerHTML = element;
                 }
             };
     
@@ -86,8 +106,10 @@
         }
 
         function deleteParticipant(userDelete) {
-            console.log(userDelete)
-            var inputDeleted = document.getElementById("id"+userDelete)
+            var inputDeleted = document.getElementById("id-li-"+userDelete)
+            if (inputDeleted) {
+                inputDeleted.remove(); 
+            }
         }
     </script>
     

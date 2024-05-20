@@ -50,6 +50,10 @@ def login():
         email = flask.request.form.get("email")
         password = flask.request.form.get("password")
 
+        if not (email and password):
+            flask.flash("Todos los campos son obligatorios", "errorAuth")
+            return flask.redirect('/login')
+
         user = UserDto.find(srp, email)
         if user:
             if user.chk_password(password):
@@ -57,7 +61,8 @@ def login():
                 
                 flask_login.login_user(user_loader(email))
                 return flask.redirect("/home")
-
+        else:
+            flask.flash("Ese email no existe en el sistema", "errorEmail")
     return flask.render_template("auth/login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -69,15 +74,15 @@ def register():
         password = flask.request.form.get('password')
 
         if not (username and name and email and password):
-            flask.flash("Todos los campos son obligatorios", "error")
+            flask.flash("Todos los campos son obligatorios", "errorAuth")
             return flask.redirect('/register')
 
         if UserDto.exist_username(srp, username=username):
-            flask.flash("Ese nombre de usuario ya existe", "error")
+            flask.flash("Ese nombre de usuario ya existe", "errorUsername")
             return flask.redirect('/register')
 
         if UserDto.find(srp, email=email):
-            flask.flash("Ese email ya esta en uso", "error")
+            flask.flash("Ese email ya esta en uso", "errorEmail")
             return flask.redirect('/register')
         
 
@@ -91,8 +96,6 @@ def register():
         }
         
         ooid = srp.save(user)
-        print(user)
-        print(ooid)
 
 
         return flask.redirect('/login')

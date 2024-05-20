@@ -32,21 +32,72 @@ def group_add():
         name_group = flask.request.form.get("name-group")
         description_group = flask.request.form.get("description-group")
         list_participants = flask.request.form.getlist("participants[]")
-        print (list_participants)
 
         if not (name_group and description_group and list_participants):
-            flask.flash("Todos los campos son obligatorios", "error")
+            flask.flash("Todos los campos son obligatorios", "errorGroup")
             return flask.redirect('/group/add')
+        
+        
 
 
         group = GroupDto(name_group,description_group, list_participants, [])
         ooid = srp.save(group)
-        print(ooid)
-        print(group)
 
         return flask.redirect('/')
 
+@flask_login.login_required
+@group_blpr.route("/edit/<name>", methods=["POST", "GET"])
+def edit_group(name):
+    if flask.request.method == "GET":
+        group = GroupDto.search_by_url(srp, name)
 
+        sust= {
+            "url": name,
+            "group": group
+        }
+        return flask.render_template("editGroup.html", **sust)
+
+    if flask.request.method == "POST":
+        name_group = flask.request.form.get("name-group")
+        description_group = flask.request.form.get("description-group")
+        list_participants = flask.request.form.getlist("participants[]")
+        
+
+        if not (name_group and description_group and list_participants):
+            flask.flash("Todos los campos son obligatorios", "errorGroup")
+            return flask.redirect('/group/edit/' + name)
+        
+        group_edit = GroupDto.search_by_url(srp,name)
+
+        group_edit.edit_group(srp, name_group, description_group, list_participants)
+
+        return flask.redirect("/group/view/"+name)
+
+@flask_login.login_required
+@group_blpr.route("/delete/<name>", methods=["POST","GET"])
+def delete_group(name):
+    if flask.request.method == "GET":
+        user = UserDto.current_user()
+        username = ""
+        if user:
+            username = user.username
+
+        groups_list, urls_groups = GroupDto.get_all_groups(srp,username=username)
+        
+        sust = { 
+            "url": name,
+            "username":username,
+            "groups_list" : groups_list,
+            "srp":srp,
+            "urls_groups" : urls_groups
+        }
+        
+        return flask.render_template("deleteGroup.html", **sust)
+    
+    if flask.request.method == "POST":
+        srp.delete(srp.oid_from_safe(name))
+        
+        return flask.redirect("/home")
 
 
 @flask_login.login_required
@@ -127,6 +178,14 @@ def add_expense(name):
         amount_expense = flask.request.form.get("amount-expense")
         user_expense = flask.request.form.get("user-expense")
 
+        if not (name_expense and amount_expense and user_expense):
+            flask.flash("Todos los datos son obligatorios", "errorExpense")
+            return flask.redirect("/group/view/"+name+"/expense/add")
+        
+        if int(amount_expense) < 0:
+            flask.flash("La cantidad no puede ser negativa", "errorAmount")
+            return flask.redirect("/group/view/"+name+"/expense/add")
+
         user_exists = UserDto.find_username(s=srp, username=user_expense) 
         print(user_exists)
         if user_exists:
@@ -151,59 +210,7 @@ def delete_expense(name, expense):
     
         return flask.redirect("/group/view/" + name)
 
-@flask_login.login_required
-@group_blpr.route("/edit/<name>", methods=["POST", "GET"])
-def edit_group(name):
-    if flask.request.method == "GET":
-        group = GroupDto.search_by_url(srp, name)
 
-        sust= {
-            "url": name,
-            "group": group
-        }
-        return flask.render_template("editGroup.html", **sust)
-
-    if flask.request.method == "POST":
-        name_group = flask.request.form.get("name-group")
-        description_group = flask.request.form.get("description-group")
-        list_participants = flask.request.form.getlist("participants[]")
-        
-
-        if not (name_group and description_group and list_participants):
-            flask.flash("Todos los campos son obligatorios", "error")
-            return flask.redirect('/group/edit' + name)
-        
-        group_edit = GroupDto.search_by_url(srp,name)
-
-        group_edit.edit_group(srp, name_group, description_group, list_participants)
-
-        return flask.redirect("/group/view/"+name)
-
-@flask_login.login_required
-@group_blpr.route("/delete/<name>", methods=["POST","GET"])
-def delete_group(name):
-    if flask.request.method == "GET":
-        user = UserDto.current_user()
-        username = ""
-        if user:
-            username = user.username
-
-        groups_list, urls_groups = GroupDto.get_all_groups(srp,username=username)
-        
-        sust = { 
-            "url": name,
-            "username":username,
-            "groups_list" : groups_list,
-            "srp":srp,
-            "urls_groups" : urls_groups
-        }
-        
-        return flask.render_template("deleteGroup.html", **sust)
-    
-    if flask.request.method == "POST":
-        srp.delete(srp.oid_from_safe(name))
-        
-        return flask.redirect("/home")
 
         
 

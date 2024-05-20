@@ -4,12 +4,31 @@
 {% block content %}
   <form class="form" method="POST" action="{{ url_for('login') }}">
     <h2 class="form-heading">Iniciar Sesión</h2>
-
-    <input type="text" class="form-control" name="email" placeholder="Email" />
-    <input type="password" class="form-control" name="password" placeholder="Contraseña" />
+    {% with errorAuth = get_flashed_messages(category_filter=["errorAuth"]) %}
+      {%if errorAuth%}
+        {%for msg in errorAuth%}
+          <p class="msg-error">{{msg}}</p>
+        {%endfor%}
+      {%endif%}
+    {% endwith %}
+    <div class="form-group">
+      <label for="username">Email:</label>
+      <input type="text" class="form-control" name="email" placeholder="Email" />
+      {% with errorEmail = get_flashed_messages(category_filter=["errorEmail"]) %}
+        {%if errorEmail%}
+          {%for msg in errorEmail%}
+            <p class="msg-error">{{msg}}</p>
+          {%endfor%}
+        {%endif%}
+      {% endwith %}
+    </div>
+    <div class="form-group">
+      <label for="password">Contraseña:</label>
+      <input type="password" class="form-control" name="password" placeholder="Contraseña" />
+    </div>
 
     <div class="container-btn">
-      <button class="btn btn-primary" type="button" onclick="window.location.href='/register'">Registrarse</button>
+      <a class="btn btn-primary" href='/register'">Registrarse</a>
     
       <button class="btn btn-submit" type="submit">Acceder</button>
     </div>

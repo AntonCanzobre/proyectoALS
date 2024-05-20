@@ -171,3 +171,9 @@ header{
     display: flex;
     justify-content: end;
 }
+
+/****msg de error****/
+.msg-error{
+    color: red;
+    margin: 5px;
+  }

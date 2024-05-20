@@ -7,6 +7,13 @@
         <h2 class="group-heading">Crear Gasto</h2>
         <div class="group-form">
             <form method="POST" action="{{ url_for('group_blpr.add_expense', name=url) }}">
+                {% with errorExpense = get_flashed_messages(category_filter=["errorExpense"]) %}
+                    {%if errorExpense%}
+                        {%for msg in errorExpense%}
+                        <p class="msg-error">{{msg}}</p>
+                        {%endfor%}
+                    {%endif%}
+                {% endwith %}
 
                 <div class="div-form">
                     <label for="name-expense">Nombre del gasto</label>
@@ -16,6 +23,13 @@
                 <div class="div-form">
                     <label for="amount-expense">Cantidad</label>
                     <input type="text" class="form-group" name="amount-expense" placeholder="Cantidad" value="{{ expense.amount }}"/>
+                    {% with errorAmount = get_flashed_messages(category_filter=["errorAmount"]) %}
+                        {%if errorAmount%}
+                            {%for msg in errorAmount%}
+                            <p class="msg-error">{{msg}}</p>
+                            {%endfor%}
+                        {%endif%}
+                    {% endwith %}
                 </div>
 
                 <div class="div-form">
