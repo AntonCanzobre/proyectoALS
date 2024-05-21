@@ -20,14 +20,17 @@ class ExpensesDto():
         return self._user
 
 
+    #devuelve el gasto a traves del id
     @staticmethod
     def get_expense(s:sirope.Sirope, ooid):
         return s.load(ooid)
 
+    #devuelve el id del gasto buscado
     @staticmethod
     def get_ooid(s:sirope.Sirope, expense):
         return s.save(expense)
 
+    #elimina el gasto de la base de datos
     @staticmethod
     def delete_expense(s:sirope.Sirope, ooid):
         s.delete(ooid)

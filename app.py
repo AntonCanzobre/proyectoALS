@@ -39,9 +39,11 @@ def unauthorized_handler():
 
 @app.route('/')
 def get_index():
-    
+    if UserDto.current_user():
+        return flask.redirect("/home")
     return flask.redirect("/login")
 
+#se encarga del login de la app
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if UserDto.current_user():
@@ -65,8 +67,11 @@ def login():
             flask.flash("Ese email no existe en el sistema", "errorEmail")
     return flask.render_template("auth/login.html")
 
+#se encarga de registrar usuarios
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if UserDto.current_user():
+        return flask.redirect("/home")
     if flask.request.method == "POST":
         username = flask.request.form.get('username')
         name = flask.request.form.get('name')
@@ -102,6 +107,7 @@ def register():
 
     return flask.render_template("auth/register.html")
 
+#Es la ruta base del usuario cuando se loggea
 @app.route("/home", methods=["GET"])
 @flask_login.login_required
 def home():
@@ -123,6 +129,7 @@ def home():
 
     return flask.render_template("home.html", **sust)
 
+#desloguea al usuario
 @app.route('/logout')
 @flask_login.login_required
 def logout():

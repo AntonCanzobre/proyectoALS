@@ -29,20 +29,24 @@ class GroupDto():
     def contains_user(self, username):
         return username in self._people 
     
+
+    #Añadir gasto al grupo, guardamos el id del gasto en el array y el gasto a la base de datos
     def add_expense(self, s:sirope.Sirope, expense):
         ooid_expense = s.save(expense)
         self._expenses.append(ooid_expense)
 
+    #editar datos del grupo
     def edit_group(self, s:sirope.Sirope, name_group, description_group, list_participants):
         self._name = name_group
         self._description = description_group
         self._people = list_participants
         s.save(self)
 
-
+    #devuelve la lista de los gastos del grupo
     def get_array_expenses(self, s:sirope.Sirope):
         return list(s.multi_load(self._expenses))
     
+    #devuelve la cantidad total de gastos que tiene el grupo
     def get_total_expenses(self, s:sirope.Sirope):
         total = 0
         for id_exp in self._expenses:
@@ -50,6 +54,7 @@ class GroupDto():
             total += expense.amount
         return total
 
+    #devuelve el numero de dinero que gasto cada miembro del grupo 
     def payment_calculation(self, s:sirope.Sirope):
         dict = {}
         for person in self._people:
@@ -60,6 +65,7 @@ class GroupDto():
             dict[expense.user] = expense.amount
         return dict
 
+    #devuelve el reparto de los gastos entre los miembros del grupo
     def equitable_payment_distribution(self, s:sirope.Sirope):
         total_expenses = self.get_total_expenses(s)
         tam_group = len(self._people)
@@ -86,6 +92,7 @@ class GroupDto():
 
         return payments
 
+    #devuelve el gasto con solo el nombre de este
     def search_expense(self, s:sirope.Sirope, name_expense):
         expsenses = self.get_array_expenses(s)
         for e in expsenses:
@@ -93,13 +100,14 @@ class GroupDto():
                 return e
         return none
 
+    #elimina el gasto del id enviado
     def delete_expense(self, s:sirope.Sirope, ooid_expense):
         ExpensesDto.delete_expense(s,ooid_expense)
         self._expenses.remove(ooid_expense)
         s.save(self)
 
 
-
+    #devuelve el grupo buscado a de un usuario determinado
     @staticmethod
     def search_group(s:sirope.Sirope, name:str, username:str):  
         list_groups, urls_groups = GroupDto.get_all_groups(s, username=username)
@@ -110,8 +118,9 @@ class GroupDto():
                 return g 
         return None
     
+    #devuelve los grupos de un usuario determinado
     @staticmethod
-    def get_all_groups(s: sirope.Sirope, username: str): #devuelve todos los grupos del usuario
+    def get_all_groups(s: sirope.Sirope, username: str):
         groups = [] 
         urls_groups = []
         for g in s.load_all(GroupDto):
@@ -121,9 +130,18 @@ class GroupDto():
 
         return groups, urls_groups
 
+    #devuelve el grupo buscado por la clave safe de sirope
     @staticmethod
     def search_by_url(s:sirope.Sirope, url):
         return s.load(s.oid_from_safe(url))
+
+    #Elimina los gastos del grupo y elimina el grupo
+    @staticmethod
+    def delete_group(s:sirope.Sirope, ooid):
+        group = s.load(ooid)
+        for e in group.expenses:
+            s.delete(e)
+        s.delete(ooid)
         
     def __str__ (self):
         return f"{self.name}, {self.people}"

@@ -6,6 +6,7 @@ from model.Userdto import UserDto
 from model.Groupdto import GroupDto
 from model.Expensesdto import ExpensesDto
 
+#Blueprint para la gestion de groupos
 def get_blprint():
     group_module = flask.blueprints.Blueprint("group_blpr", __name__,
                                     url_prefix="/group",
@@ -16,9 +17,11 @@ def get_blprint():
 
 group_blpr, srp = get_blprint()
 
-@flask_login.login_required
+#Se encarga de devolver la pagina para añadir un grupo y de recibir la respuesta para crear un grupo nuevo
 @group_blpr.route("/add", methods=["GET", "POST"])
+@flask_login.login_required
 def group_add():
+    
     if flask.request.method == "GET":
         user = UserDto.current_user()
         group = GroupDto("", "", [user.username], [])
@@ -37,16 +40,15 @@ def group_add():
             flask.flash("Todos los campos son obligatorios", "errorGroup")
             return flask.redirect('/group/add')
         
-        
-
 
         group = GroupDto(name_group,description_group, list_participants, [])
         ooid = srp.save(group)
 
         return flask.redirect('/')
 
-@flask_login.login_required
+#carga la pagina para editar el grupo y se encarga de recibir la peticion para editarlo
 @group_blpr.route("/edit/<name>", methods=["POST", "GET"])
+@flask_login.login_required
 def edit_group(name):
     if flask.request.method == "GET":
         group = GroupDto.search_by_url(srp, name)
@@ -73,8 +75,9 @@ def edit_group(name):
 
         return flask.redirect("/group/view/"+name)
 
-@flask_login.login_required
+#carga un modal de confirmación de eliminación y hace recibe la confirmación para eliminarlo
 @group_blpr.route("/delete/<name>", methods=["POST","GET"])
+@flask_login.login_required
 def delete_group(name):
     if flask.request.method == "GET":
         user = UserDto.current_user()
@@ -95,13 +98,13 @@ def delete_group(name):
         return flask.render_template("deleteGroup.html", **sust)
     
     if flask.request.method == "POST":
-        srp.delete(srp.oid_from_safe(name))
+        GroupDto.delete_group(srp,srp.oid_from_safe(name))
         
         return flask.redirect("/home")
 
-
-@flask_login.login_required
+#Busca los usuarios antes de añadirlos a la lista de participantes, en caso de que ya exista en la lista se enviara un mensaje de error, en el caso contrario se añadira
 @group_blpr.route("/search", methods=["POST"])
+@flask_login.login_required
 def group_search():
     new_participant_username = flask.request.json.get('newParticipant')
     list_participants = flask.request.json.get('participants')
@@ -120,9 +123,9 @@ def group_search():
     else:
         return flask.jsonify({'message': 'El usuario no existe en la base de datos.'}), 400
 
-
-@flask_login.login_required
+#Devuelve el visionado detallado de los datos del grupo
 @group_blpr.route("/view/<name>", methods=["GET"])
+@flask_login.login_required
 def group_view(name):
     user = UserDto.current_user()
     group = GroupDto.search_by_url(srp,name)
@@ -140,9 +143,9 @@ def group_view(name):
     
     return flask.render_template("viewGroup.html", **sust)
 
-
-@flask_login.login_required
+#carga un modal para añadir un gasto a el grupo y hace recibe la peticion para añadirlo
 @group_blpr.route("/view/<name>/expense/add", methods=["GET", "POST"])
+@flask_login.login_required
 def add_expense(name):
 
     
@@ -198,9 +201,9 @@ def add_expense(name):
             
         
 
-
-@flask_login.login_required
+#elimina un gasto de la lista del grupo y refresaca la pagina
 @group_blpr.route("/view/<name>/expense/delete/<expense>", methods=["POST"])
+@flask_login.login_required
 def delete_expense(name, expense):
     group = GroupDto.search_by_url(srp, name)
     expense = group.search_expense(srp, expense)

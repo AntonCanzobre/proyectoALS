@@ -27,10 +27,12 @@ class UserDto(flask_login.UserMixin):
     def chk_password(self, pswd):
         return safe.check_password_hash(self._password, pswd)
 
+    #comprueba que exista el usuario
     @staticmethod
     def exist_username(s:sirope.Sirope, username:str):
         return s.find_first(UserDto, lambda u: u.username == username)
 
+    #devuelve el usuario actual
     @staticmethod
     def current_user():
         usr = flask_login.current_user
@@ -41,10 +43,12 @@ class UserDto(flask_login.UserMixin):
             
         return usr
 
+    # devuelve el usuario buscado por el email
     @staticmethod
     def find(s: sirope.Sirope, email: str) -> "UserDto":
         return s.find_first(UserDto, lambda u: u.email == email)
 
+    # devuelve el usuario buscado por el username
     @staticmethod
     def find_username(s: sirope.Sirope, username: str) -> "UserDto":
         return s.find_first(UserDto, lambda u: u.username == username)
